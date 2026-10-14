@@ -50,7 +50,10 @@ function checkRequestOrigin(req, hosting) {
   // Prevent DNS-rebinding and cross-site requests to the credential-bearing server.
   const allowedHost = (host) => validLocalHost(host) || (hosting.hosted && hosting.publicHosts.includes(hostnameOf(host)));
   if (!req.headers.host || !allowedHost(req.headers.host)) throw new AppError(403, 'INVALID_HOST', hosting.hosted ? 'Unknown host.' : 'This local app accepts only loopback hostnames.');
-  if (req.headers['sec-fetch-site'] === 'cross-site') throw new AppError(403, 'INVALID_ORIGIN', 'Cross-site requests are not allowed.');
+  // Following a link from another site (e.g. Devpost) is a top-level GET navigation and must be allowed;
+  // cross-site background requests (fetches, form posts, API calls) are still rejected.
+  const topLevelNavigation = ['GET', 'HEAD'].includes(req.method) && req.headers['sec-fetch-mode'] === 'navigate' && req.headers['sec-fetch-dest'] === 'document';
+  if (req.headers['sec-fetch-site'] === 'cross-site' && !topLevelNavigation) throw new AppError(403, 'INVALID_ORIGIN', 'Cross-site requests are not allowed.');
   if (req.headers.origin) {
     let origin;
     try { origin = new URL(req.headers.origin); } catch { throw new AppError(403, 'INVALID_ORIGIN', 'Origin is not allowed.'); }

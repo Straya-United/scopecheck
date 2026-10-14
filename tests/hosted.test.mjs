@@ -67,3 +67,13 @@ test('hosted live calls are limited per client and per day', async () => {
     assert.equal(calls, 3);
   });
 });
+
+test('a link from another site opens the page, but cross-site API calls are still blocked', async () => {
+  await withServer({ env: hostedEnv, fetchImpl: async () => providerResponse() }, async (port) => {
+    const nav = { 'sec-fetch-site': 'cross-site', 'sec-fetch-mode': 'navigate', 'sec-fetch-dest': 'document' };
+    assert.notEqual((await call(port, { path: '/', headers: nav })).status, 403);
+    assert.equal((await call(port, { path: '/api/demo', headers: { 'sec-fetch-site': 'cross-site', 'sec-fetch-mode': 'cors', 'sec-fetch-dest': 'empty' } })).status, 403);
+    const post = await call(port, { method: 'POST', path: '/api/analyze', headers: { ...nav, 'content-type': 'application/json' }, body: JSON.stringify({ scope, quote, mode: 'rules' }) });
+    assert.equal(post.status, 403);
+  });
+});
