@@ -1,0 +1,37 @@
+{
+  "name": "scopecheck",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "Evidence-first contractor scope and quote review prototype",
+  "scripts": {
+    "dev": "concurrently -k \"node --env-file-if-exists=.env server/index.mjs\" \"vite --host 127.0.0.1\"",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "start": "node --env-file-if-exists=.env server/index.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "test:ui": "node --import tsx --test ui/*.test.tsx"
+  },
+  "dependencies": {
+    "lucide-react": "0.468.0",
+    "pdfjs-dist": "5.4.624",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.0",
+    "@testing-library/react": "16.3.0",
+    "@types/react": "19.2.0",
+    "@types/react-dom": "19.2.0",
+    "@vitejs/plugin-react": "4.7.0",
+    "concurrently": "9.2.1",
+    "jsdom": "26.1.0",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "vite": "6.4.1"
+  },
+  "engines": {
+    "node": ">=22.16"
+  }
+}

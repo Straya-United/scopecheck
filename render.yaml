@@ -1,0 +1,27 @@
+# Render Blueprint for the judge-facing ScopeCheck demo.
+# Set NEBIUS_API_KEY as a secret in the Render dashboard. PUBLIC_HOSTS must equal the service's public hostname.
+services:
+  - type: web
+    name: scopecheck
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.19.0
+      - key: PUBLIC_HOSTS
+        value: scopecheck.onrender.com
+      - key: NEBIUS_ENABLED
+        value: "true"
+      - key: NEBIUS_MODEL
+        value: nvidia/nemotron-3-super-120b-a12b
+      - key: NEBIUS_BASE_URL
+        value: https://api.tokenfactory.us-central1.nebius.com/v1
+      - key: LIVE_DAILY_CAP
+        value: "150"
+      - key: LIVE_PER_IP_PER_HOUR
+        value: "6"
+      - key: NEBIUS_API_KEY
+        sync: false

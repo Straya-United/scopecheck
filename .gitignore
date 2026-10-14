@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+test-results/
+playwright-report/
+*.tsbuildinfo
+*.log
+done.flag
+shots/
+# Internal hackathon prep notes (kept local)
+docs/submission-checklist.md
+docs/submission-draft.md
+docs/demo-walkthrough-draft.md
