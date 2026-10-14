@@ -4,7 +4,8 @@
 
 The AI review runs **NVIDIA Nemotron 3 Super (`nvidia/nemotron-3-super-120b-a12b`) on Nebius Token Factory**. Built for the [Nebius × NVIDIA Global AI Hackathon](https://nebiusglobalaihackathon.devpost.com/), *Best Apps and Agents* track.
 
-- **Live demo:** _URL added at deployment_ (fictional documents only; no sign-in)
+- **Live demo:** https://scopecheck.onrender.com (fictional documents only; no sign-in; the first load after a quiet spell can take up to a minute while the free instance wakes)
+- **Demo video:** https://youtu.be/sLRBN9xs7jc
 - **Licence:** MIT
 
 ## How Nemotron and Token Factory are used
